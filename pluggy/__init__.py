@@ -35,6 +35,6 @@ def call_action():
     action = request.form.get('action', type=str)
 
     if (pluggy.action(action)):
-        return '',200
+        return '', 200
     else:
         return '', 500
