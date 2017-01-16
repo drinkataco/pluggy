@@ -2,7 +2,6 @@ from gpiozero import Energenie
 from collections import OrderedDict
 import configparser
 
-
 class Pluggy(object):
 
     # Location of config files
@@ -10,6 +9,9 @@ class Pluggy(object):
 
     # Plug dictionary (hostname to plugs)
     plugs = {}
+
+    # channels config
+    channels = {}
 
     def __init__(self):
         """
@@ -21,18 +23,24 @@ class Pluggy(object):
         """
             Parse channels configuration file and return
         """
-        channels = {}
 
-        config = configparser.ConfigParser()
-        config.readfp(open(self.conf_loc + 'channels.conf'))
+        # only create config if doesn't already exist
+        if not bool(self.channels):
+            print('Grabbing channels conf')
+            channels = {}
 
-        for item in config.sections():
-            options = {}
-            for name in config.options(item):
-                options[name] = config.get(item, name)
-            channels[item] = options
-        print(channels)
-        return channels
+            config = configparser.ConfigParser()
+            config.readfp(open(self.conf_loc + 'channels.conf'))
+
+            for item in config.sections():
+                options = {}
+                for name in config.options(item):
+                    options[name] = config.get(item, name)
+                channels[item] = options
+
+            self.channels = channels
+
+        return self.channels
 
     def get_actions(self):
         """
@@ -48,7 +56,7 @@ class Pluggy(object):
             for name in config.options(item):
                 options[name] = config.get(item, name)
             actions[item] = options
-        print(actions)
+
         return actions
 
     def get_timers(self):
@@ -90,7 +98,22 @@ class Pluggy(object):
         return True
 
     def action(self, action):
-        pass
+        """
+            Perform defined action
+        """
+        instructions = action.split('&')
+        channels = self.get_channels();
+
+        for instruction in instructions:
+            channel = channels[instruction.split(',')[0]]
+
+            # call method
+            print(channel);
+            self.switch(channel['channel'],
+                        channel['frequency'],
+                        instruction.split(',')[1])
+
+        return True
 
     def _external_switch_call(self, channel, frequency, on):
         """
