@@ -1,4 +1,4 @@
-li {
+.pluggy-definitions li {
     margin-bottom: 5px;
 }
 .pluggy-bind {
@@ -23,4 +23,8 @@ li {
 
 .timer-info {
     margin-bottom: 5px;
+}
+
+.timer-methods {
+    margin-bottom: 0;
 }
