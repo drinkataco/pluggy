@@ -108,10 +108,9 @@ class Pluggy(object):
             channel = channels[instruction.split(',')[0]]
 
             # call method
-            print(channel);
             self.switch(channel['channel'],
-                        channel['frequency'],
-                        instruction.split(',')[1])
+                        int(channel['frequency']),
+                        int(instruction.split(',')[1]))
 
         return True
 
