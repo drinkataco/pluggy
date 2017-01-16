@@ -1,0 +1,116 @@
+{% extends "layout.html" %}
+{% block body %}
+    <script type="text/javascript">
+	   function onloadFunction() {
+            var elements = document.getElementsByClassName('pluggy-switch-bind');
+
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].addEventListener('click', pluggyClick, false);
+            }
+
+            function pluggyClick(e) {
+                var switchId = e.target.dataset.plug;
+                var checked  = e.target.dataset.plugMethod;
+                var channel  = e.target.dataset.plugChannel;
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/pluggy/switch');
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send('switch='+switchId+'&on='+checked+'&channel='+channel);
+                
+                xhr.onreadystatechange = function () {
+                    var DONE = 4; // readyState 4 means the request is done.
+                    var OK = 200; // status 200 is a successful return.
+                    if (xhr.readyState === DONE) {
+                        if (xhr.status === OK) { 
+                            console.log(xhr.responseText); // 'This is the returned text.'
+                        } else {
+                            console.log('Error: ' + xhr.status); // An error occurred during the request.
+                        }
+                    }
+                };
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', onloadFunction, false);
+    </script>
+    <style type="text/css">
+        li {
+            margin-bottom: 5px;
+        }
+        .pluggy-bind {
+            cursor: pointer;
+            display: inline-block;
+            border: 1px #ccc solid;
+            border-radius: 3px;
+            padding: 3px 6px;
+        }
+        .pluggy-option-label {
+           margin-left: 8px;
+        }
+
+        .pluggy-timers {
+            margin-top: 14px;
+        }
+
+        .timer-name {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .timer-info {
+            margin-bottom: 5px;
+        }
+    </style>
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <h2>Plugs</h2>
+            <ul class="pluggy-plugs list-unstyled">
+                {% for plug in plugs|sort %}
+                    <li class="pluggy-plug">
+                        <a class="btn btn-default btn-success pluggy-switch-bind pluggy--on" data-plug="{{ plugs[plug].frequency }}" data-plug-channel="{{ plugs[plug].channel }}" data-plug-method="1">On</a>
+                        <a class="btn btn-default btn-danger pluggy-switch-bind pluggy--off" data-plug="{{ plugs[plug].frequency }}" data-plug-channel="{{ plugs[plug].channel }}" data-plug-method="0">Off</a>
+                        <span class="pluggy-option-label">{{ plugs[plug].name }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-xs-12 col-md-6">
+            <h2>Actions</h2>
+            <ul class="pluggy-actions list-unstyled">
+                {% for action in actions|sort %}
+                    <li class="pluggy-action">
+                        <a class="btn btn-default btn-primary pluggy-action-bind pluggy--on" data-action-name="{{ action }}" data-action="{{ actions[action].action }}">{{ actions[action].name }}</a>
+                        <span class="pluggy-option-label">{{ actions[action].information }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Timers</h2>
+            <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pjxzdmcgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjQgMjQ7IiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PGcgaWQ9ImluZm8iLz48ZyBpZD0iaWNvbnMiPjxnIGlkPSJ0aW1lIj48cGF0aCBkPSJNMTIsMEM1LjQsMCwwLDUuNCwwLDEyYzAsNi42LDUuNCwxMiwxMiwxMnMxMi01LjQsMTItMTJDMjQsNS40LDE4LjYsMCwxMiwweiBNMTIsMjFjLTUsMC05LTQtOS05YzAtNSw0LTksOS05czksNCw5LDkgICAgQzIxLDE3LDE3LDIxLDEyLDIxeiIvPjxwYXRoIGQ9Ik0xNCwxMS4yVjdjMC0xLjEtMC45LTItMi0ycy0yLDAuOS0yLDJ2NWMwLDAuNSwwLjIsMSwwLjYsMS40bDMsM0MxNCwxNi44LDE0LjUsMTcsMTUsMTdzMS0wLjIsMS40LTAuNiAgICBjMC44LTAuOCwwLjgtMiwwLTIuOEwxNCwxMS4yeiIvPjwvZz48L2c+PC9zdmc+" style="width:16px;height:16px;margin-right:8px"><a href="">Add a timer</a>
+        </div>
+        <div class="col-xs-12 pluggy-timers">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="timer-info">
+                                <span class="timer-name">Turn On Lamp</span> at
+                                <span class="timer-time"><time>27th March 3pm</time></span>
+                            </div>
+                            <div class="timer-info timer-repeat"><i>Repeating every Tue at 3pm</i></div>
+                            <div class="timer-info timer-action">Timer Name</div>
+                            <div class="timer-methods">
+                                <a href="">Edit</a>
+                                <a href="">Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
