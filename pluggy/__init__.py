@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 from .pluggy import *
+from .settings import *
 
 app = Flask(__name__, static_url_path='/pluggy/static')
-pluggy = Pluggy()
+
+settings = Settings()
+pluggy = Pluggy(settings.conf_loc)
 
 @app.route('/pluggy')
 def index():

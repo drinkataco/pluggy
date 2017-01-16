@@ -1,5 +1,4 @@
 from gpiozero import Energenie
-from collections import OrderedDict
 import configparser
 
 class Pluggy(object):
@@ -13,11 +12,11 @@ class Pluggy(object):
     # channels config
     channels = {}
 
-    def __init__(self):
+    def __init__(self, location):
         """
             Grab configuration location
         """
-        self.conf_loc = '/Users/joshwalwyn/Desktop/conf/'
+        self.conf_loc = location
 
     def get_channels(self):
         """

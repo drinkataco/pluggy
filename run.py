@@ -1,5 +1,7 @@
 #!/usr/bin/env python3.5
-from pluggy import app
+from pluggy import app, settings
 
 if __name__ == "__main__":
-    app.run(debug=True, port=1965)
+    port = int(settings.settings['port'])
+    debug = int(settings.settings['debug'])
+    app.run(debug=debug, port=port)
