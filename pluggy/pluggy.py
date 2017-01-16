@@ -25,7 +25,6 @@ class Pluggy(object):
 
         # only create config if doesn't already exist
         if not bool(self.channels):
-            print('Grabbing channels conf')
             channels = {}
 
             config = configparser.ConfigParser()
@@ -67,10 +66,7 @@ class Pluggy(object):
     def switch(self, channel, frequency, on):
         """
             Turns swich on/off
-            @todo add excetion catching
         """
-        print(self.plugs)
-
         # create dictionary of data on first runs
         if (channel not in self.plugs):
             self.plugs[channel] = {}
