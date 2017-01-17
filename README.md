@@ -8,6 +8,7 @@ Todo:
 - Add/Remove/Modify timers to call actions/methods
 - Create setup script
 - Add Readme and configuration helpers
+- Handle Exceptions
 
 Possible futures:
 - Automate pairing
