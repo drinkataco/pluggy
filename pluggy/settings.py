@@ -39,9 +39,13 @@ class Settings(object):
         application_port = input('Application web port: [7373] ')
         application_root = input('Application web root: [/] ')
 
+        # remove start/end slash
+        # application_root = application_root[1:] if application_root[0] == '/' else application_root
+        # application_root = application_root[:-1] if application_root[-1] == '/' else application_root
+
         # Set defaults if required. Root defaults to blank
         conf_location = conf_location if conf_location else 'conf/'
-        application_port = application_port if application_port else 7373
+        application_port = application_port if application_port else '7373'
 
         # Conf Location, ensure directory defined
         if conf_location[-1:] != '/':
@@ -55,11 +59,18 @@ class Settings(object):
             self._copy_conf_files(conf_location)
 
         # Save general settings in settings config
+        config = configparser.ConfigParser(allow_no_value = True)
+        config.readfp(open(conf_location + 'settings.conf'))
+        config.set('general', 'port', application_port)
+        config.set('general', 'root', application_root)
+
+        with open(conf_location + 'settings.conf', 'w') as configfile:
+            config.write(configfile)
         
         # Print success message to user
         print('Configuration files have been created')
         print('To run pluggy, you can do so straight from the command line')
-        print('Or, as we prefer, using Supervisor (see: supervisord.org)')
+        print('Or, as the recommended way, using Supervisor (see: supervisord.org)')
 
     def _copy_conf_files(self, to_location):
         """

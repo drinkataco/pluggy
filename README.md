@@ -12,3 +12,6 @@ Todo:
 Possible futures:
 - Automate pairing
 - Automate adding of actions
+
+## Requirements ##
+Pluggy requires the Python3 libraries Flask and request
