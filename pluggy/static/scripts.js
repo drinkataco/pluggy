@@ -23,7 +23,7 @@ function onloadFunction() {
         var channel  = e.target.dataset.plugChannel;
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/pluggy/switch');
+        xhr.open('POST', 'switch');
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send('switch='+switchId+'&on='+checked+'&channel='+channel);
         
@@ -38,7 +38,7 @@ function onloadFunction() {
         var action = e.target.dataset.action;
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/pluggy/action');
+        xhr.open('POST', 'action');
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send('action='+encodeURIComponent(action));
 

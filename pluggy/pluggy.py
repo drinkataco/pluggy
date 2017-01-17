@@ -1,5 +1,6 @@
 from gpiozero import Energenie
 import configparser
+import requests
 
 class Pluggy(object):
 
@@ -113,6 +114,8 @@ class Pluggy(object):
         """
             If external hostname/ip supplied then perform POST callout
         """
-        url = channel+'?switch='+str(frequency)+'&on='+str(on)+'&channel=localhost&callout=true'
-        print('--CALLOUT--')
-        print(url)
+        data = { 'switch' : str(frequency),
+                 'on'     : str(on),
+                 'channel': 'localhost',
+                 'callout': 'true' }
+        r = requests.post('http://'+channel+'/switch', data=data)

@@ -9,10 +9,11 @@ pluggy = Pluggy(settings.conf_loc)
 path_root = settings.settings['root']
 if path_root != '':
     path_root = '/' + path_root
+path_root += '/'
 
-app = Flask(__name__, static_url_path=path_root+'/static')
+app = Flask(__name__, static_url_path=path_root+'static')
 
-@app.route(path_root+'/')
+@app.route(path_root)
 def index():
     """
         Form index
@@ -21,7 +22,7 @@ def index():
     actions = pluggy.get_actions()
     return render_template('index.html', plugs=plugs, actions=actions)
 
-@app.route(path_root+'/switch', methods=["POST"])
+@app.route(path_root+'switch', methods=["POST"])
 def call_switch():
     """
         Change Switch Status
@@ -35,7 +36,7 @@ def call_switch():
     else:
         return channel+','+str(frequency), 500
     
-@app.route(path_root + '/action', methods=["POST"])
+@app.route(path_root + 'action', methods=["POST"])
 def call_action():
     """
         Call Switch Action
