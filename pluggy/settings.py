@@ -1,3 +1,4 @@
+from shutil import copyfile
 import os
 import configparser
 
@@ -42,12 +43,16 @@ class Settings(object):
         conf_location = conf_location if conf_location else 'conf/'
         application_port = application_port if application_port else 7373
 
+        # Conf Location, ensure directory defined
+        if conf_location[-1:] != '/':
+            conf_location += '/'
+
         # create conf_loc file
         conf_loc_file = open('conf_loc', 'w+').write(conf_location)
 
         # If default location not selected, copy config files into locations
         if conf_location != 'conf/':
-            pass
+            self._copy_conf_files(conf_location)
 
         # Save general settings in settings config
         
@@ -55,3 +60,16 @@ class Settings(object):
         print('Configuration files have been created')
         print('To run pluggy, you can do so straight from the command line')
         print('Or, as we prefer, using Supervisor (see: supervisord.org)')
+
+    def _copy_conf_files(self, to_location):
+        """
+            Configuration is copied to selection location
+        """
+        # create location if doesn't exit
+        if not os.path.exists(to_location):
+            os.makedirs(to_location)
+
+        fromPath = os.path.dirname(os.path.realpath(__file__)) + '/../conf/';
+        copyfile(fromPath + 'actions.conf', to_location + 'actions.conf')
+        copyfile(fromPath + 'channels.conf', to_location + 'channels.conf')
+        copyfile(fromPath + 'settings.conf', to_location + 'settings.conf')
