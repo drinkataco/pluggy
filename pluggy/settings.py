@@ -19,9 +19,7 @@ class Settings(object):
         if not os.path.exists(location):
             self.make_config_files()
 
-        location = location.replace('\n', '')
-
-        self.conf_loc = open(location, 'r').read()
+        self.conf_loc = open(location, 'r').read().replace('\n', '')
 
         config = configparser.ConfigParser()
         config.readfp(open(self.conf_loc + 'settings.conf'))
