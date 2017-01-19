@@ -6,6 +6,8 @@ As the Pi-mote control board can only control 4 sockets, Pluggy can callout othe
 
 Actions can be defined to group methods to change the status of several sockets at the same time.
 
+Adding Timers to channels and actions is currently not supported.
+
 ![Pluggy Screenshot](https://raw.githubusercontent.com/drinkataco/pluggy/develop/screenshot.png)
 
 ## Requirements ##
