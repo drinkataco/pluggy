@@ -1,18 +1,12 @@
 # Pluggy #
 
-Software used to manage Energenie Mi|Home automated plugs
+Pluggy allows the controlling of Energenie Mi|Home Sockets and Adapters from a Raspberry Pi with the [Pi-mote Control Board](https://energenie4u.co.uk/catalogue/product/ENER314)
 
-This app is currently very unstable
+As the Pi-mote control board can only control 4 sockets, Pluggy can callout other devices on the network which also have the software installed.
 
-Todo:
-- Add/Remove/Modify timers to call actions/methods
-- Create setup script
-- Add Readme and configuration helpers
-- Handle Exceptions
+Actions can be defined to group methods to change the status of several sockets at the same time.
 
-Possible futures:
-- Automate pairing
-- Automate adding of actions
+![Pluggy Screenshot](https://raw.githubusercontent.com/drinkataco/pluggy/develop/screenshot.png)
 
 ## Requirements ##
-Pluggy requires the Python3 libraries Flask and request
+Pluggy requires Python3>, and the libraries Flask, request, and gpiozero

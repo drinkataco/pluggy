@@ -40,8 +40,8 @@ class Settings(object):
         application_root = input('Application web root: [/] ')
 
         # remove start/end slash
-        # application_root = application_root[1:] if application_root[0] == '/' else application_root
-        # application_root = application_root[:-1] if application_root[-1] == '/' else application_root
+        application_root = application_root[1:] if application_root[0] == '/' else application_root
+        application_root = application_root[:-1] if application_root[-1] == '/' else application_root
 
         # Set defaults if required. Root defaults to blank
         conf_location = conf_location if conf_location else 'conf/'
