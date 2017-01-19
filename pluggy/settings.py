@@ -39,13 +39,16 @@ class Settings(object):
         application_port = input('Application web port: [7373] ')
         application_root = input('Application web root: [/] ')
 
-        # remove start/end slash
-        application_root = application_root[1:] if application_root[0] == '/' else application_root
-        application_root = application_root[:-1] if application_root[-1] == '/' else application_root
-
         # Set defaults if required. Root defaults to blank
         conf_location = conf_location if conf_location else 'conf/'
         application_port = application_port if application_port else '7373'
+
+        conf_location = os.path.expanduser(conf_location);
+
+        # remove start/end slash
+        if application_root:
+            application_root = application_root[1:] if application_root[0] == '/' else application_root
+            application_root = application_root[:-1] if application_root[-1] == '/' else application_root
 
         # Conf Location, ensure directory defined
         if conf_location[-1:] != '/':
@@ -56,7 +59,7 @@ class Settings(object):
 
         # If default location not selected, copy config files into locations
         if conf_location != 'conf/':
-            self._copy_conf_files(conf_location)
+            self.copy_conf_files(conf_location)
 
         # Save general settings in settings config
         config = configparser.ConfigParser(allow_no_value = True)
@@ -72,7 +75,7 @@ class Settings(object):
         print('To run pluggy, you can do so straight from the command line')
         print('Or, as the recommended way, using Supervisor (see: supervisord.org)')
 
-    def _copy_conf_files(self, to_location):
+    def copy_conf_files(self, to_location):
         """
             Configuration is copied to selection location
         """
@@ -81,6 +84,10 @@ class Settings(object):
             os.makedirs(to_location)
 
         fromPath = os.path.dirname(os.path.realpath(__file__)) + '/../conf/';
-        copyfile(fromPath + 'actions.conf', to_location + 'actions.conf')
-        copyfile(fromPath + 'channels.conf', to_location + 'channels.conf')
-        copyfile(fromPath + 'settings.conf', to_location + 'settings.conf')
+
+        if os.path.isfile(to_location + 'actions.conf') == False:
+            copyfile(fromPath + 'actions.conf', to_location + 'actions.conf')
+        if os.path.isfile(to_location + 'channels.conf') == False:
+            copyfile(fromPath + 'channels.conf', to_location + 'channels.conf')
+        if os.path.isfile(to_location + 'settings.conf') == False:
+            copyfile(fromPath + 'settings.conf', to_location + 'settings.conf')
